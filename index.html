@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Ladepriser</title>
+
+</head>
+<body>
+	<section class="dials">
+		<div class="dial">
+			<input class="value" value="30000" type="number" />
+			<span class="suffix">km</span>
+			<button class="up">⌃</button>
+			<button class="down">⌃</button>
+		</div>
+	</section>
+	<section class="costs">
+		<article class="cost">
+			<span class="name">Ionity</span>
+			<span class="cost">3.77</span>
+			<span class="suffix">kr/kWh</span>
+		</article>
+		<article class="cost">Eviny</article>
+		<article class="cost">Mer</article>
+		<article class="cost">Tesla</article>
+		<article class="cost">Kople < 125kW</article>
+		<article class="cost">Kople > 125kW</article>
+		<article class="cost">Recharge</article>
+		<article class="cost">Circle K</article>
+	</section>
+</body>
+<style>
+	body { background: #252525; font-family: sans-serif; color: white; }
+	.dials { display: flex;	}
+	.dial { 
+		display: grid;
+		grid-template-areas: 
+			"value suffix up"
+			"value suffix down";
+		grid-gap: 5px;
+	}
+	.dial > input, .dial > button {
+		background: transparent; color: white; border: none;
+	}
+	.dial > button {
+		width: 60px;
+		height: 40px;
+	}
+	.dial > button:hover {
+		cursor: pointer;
+		background: #454545;
+	} 
+	.dial > .value { max-width:  80px; font-size: 20px; grid-area: value;  }
+	.dial > .suffix { grid-area: suffix; align-self: center }
+	.dial > .up { grid-area: up; }
+	.dial > .down { grid-area: down; transform: rotate(-180deg); }
+
+	.costs {
+		display: flex;
+		flex-wrap: wrap;		
+	}
+	.cost {
+		min-width: 300px;
+		height: 200px;
+		background: #3700B3;
+		margin: 5px;
+	}
+
+
+	/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
+
+<script>
+
+function main() {
+	const dials = document.querySelectorAll(".dials")
+	dials.forEach(dial => {
+			const up = dial.querySelector(".up")
+			const down = dial.querySelector(".down")
+			const value = dial.querySelector(".value")
+
+			up.addEventListener("click", () => {
+				value.value = Math.min(parseInt(value.value) + 1000,99000)
+			})
+			down.addEventListener("click", () => {
+				value.value = Math.max(parseInt(value.value) - 1000, 0)
+			})
+			value.addEventListener("input", (e) => {
+				if (e.target.value === "") {
+					value.value = "0";
+					return;
+				}
+				value.value = Math.min(parseInt(e.target.value), 99000)
+				value.value = Math.max(parseInt(e.target.value), 0)	
+			})
+		})
+
+}
+
+window.addEventListener("load", main)
+
+</script>
+</html>
